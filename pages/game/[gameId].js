@@ -2,7 +2,7 @@ import { Container, Grid, Stack, Box } from "@mui/material"
 import Banner from "../../components/Banner"
 import letterCard from "../../components/Cards/LetterCard"
 
-const rows = [['1','2','3','4','5','6'],['a','s','d','f','g','h'],['','','','','',''],['','','','','',''],['','','','','',''],['','','','','','']]
+const rows = [['1','2','3','4','5'],['a','s','d','f','g'],['','','','',''],['','','','',''],['','','','',''],['','','','','']]
 
 const keyboard = [
   ['Q','W','E','R','T','Y','U','I','O','P'],
