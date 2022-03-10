@@ -9,8 +9,8 @@ export default function Banner(){
   }
 
   return(
-    <Container sx={{mt: 2}}>
-      <Stack direction='row' justifyContent="center" alignItems="center">
+    <Container>
+      <Stack spacing={0.5} direction='row' justifyContent="center" alignItems="center">
         {renderBanner(banner)}
       </Stack>
     </Container>
