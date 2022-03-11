@@ -16,6 +16,7 @@ model User {
   displayName String
   email String @unique
   password String
+  email_Verified Boolean @default(false)
   wins Int
   losses Int
   createdAt DateTime

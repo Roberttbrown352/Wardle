@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Tooltip, IconButton, Avatar, Menu, MenuItem, Typography } from "@mui/material";
+import { AvatarMenu } from "./MUI-Props/NavAvatar";
 import { useRouter } from "next/router";
 import { useUser } from '@auth0/nextjs-auth0'
 
@@ -41,15 +42,14 @@ export default function NavAvatar(){
 
   return(
     <>
-      <Tooltip title="Open settings">
+      <Tooltip title="Open">
         <IconButton sx={{ p: 0 }} onClick={handleOpenUserMenu}>
           <Avatar alt="Remy Sharp" src="" />
         </IconButton>
       </Tooltip>
-      <Menu anchorEl={anchor} open={Boolean(anchor)} onClose={handleCloseUserMenu}>
-
-      {menuRender()}
-    </Menu>
-  </>
+      <Menu anchorEl={anchor} open={Boolean(anchor)} onClose={handleCloseUserMenu} {...AvatarMenu}>
+        {menuRender()}
+      </Menu>
+    </>
   )
 }
