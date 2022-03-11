@@ -8,10 +8,29 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model User {
+model user {
   id String @id @default(cuid())
   displayName String
-  email String
+  email String @unique
+  password String
+  wins Int
+  losses Int
+  createdAt DateTime
+}
+
+model game {
+  id String @id @default(cuid())
+  player1 String
+  player2 String
+  Winner String
+  Word String
+}
+
+model session {
+  id String @id @default(cuid())
+  gameId String
+  userId String
 }
