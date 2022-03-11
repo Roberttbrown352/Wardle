@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "user" (
+CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "displayName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -8,28 +8,28 @@ CREATE TABLE "user" (
     "losses" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "user_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "game" (
+CREATE TABLE "Game" (
     "id" TEXT NOT NULL,
     "player1" TEXT NOT NULL,
     "player2" TEXT NOT NULL,
     "Winner" TEXT NOT NULL,
     "Word" TEXT NOT NULL,
 
-    CONSTRAINT "game_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Game_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "session" (
+CREATE TABLE "Session" (
     "id" TEXT NOT NULL,
     "gameId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
 
-    CONSTRAINT "session_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
