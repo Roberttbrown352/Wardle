@@ -3,26 +3,40 @@ import words from "../../utility/wordBank"
 import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
-export default async function findOrCreate(user) {
+export default async function findOrCreate(email) {
+  const currentWord =  words[generateDailyWord(words.length)]
 
-  const { email } = user
-
-  const daily = await prisma.daily.findMany({
+  let daily = await prisma.daily.findMany({
     where: {
-      userId: email
+      email
     }
   })
 
   if(daily.length){
-    return daily[0]
+    if(daily[0].currentWord !== currentWord){
+      daily = await prisma.daily.update({
+        where: {
+          email: email
+        },
+        data: {
+          turn: 0,
+          words: ['','','','','',''],
+          colors: ['','','','','',''],
+          currentWord
+        }
+      })
+    } else {
+      daily = daily[0]
+    }
   } else {
-    const newDaily = await prisma.daily.create({
+    daily = await prisma.daily.create({
       data: {
-        userId: email,
-        currentWord: words[generateDailyWord(words.length)],
+        email,
+        currentWord,
         words: ['','','','','',''],
+        colors: ['','','','','','']
       }
     })
-    return newDaily
   }
+  return daily
 }

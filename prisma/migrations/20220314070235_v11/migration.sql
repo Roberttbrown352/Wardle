@@ -35,12 +35,14 @@ CREATE TABLE "Session" (
 -- CreateTable
 CREATE TABLE "Daily" (
     "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
     "wins" INTEGER NOT NULL DEFAULT 0,
     "losses" INTEGER NOT NULL DEFAULT 0,
     "currentWord" TEXT NOT NULL,
     "turn" INTEGER NOT NULL DEFAULT 0,
+    "status" TEXT NOT NULL DEFAULT E'in progress',
     "words" TEXT[],
+    "colors" TEXT[],
 
     CONSTRAINT "Daily_pkey" PRIMARY KEY ("id")
 );
@@ -49,7 +51,7 @@ CREATE TABLE "Daily" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Daily_userId_key" ON "Daily"("userId");
+CREATE UNIQUE INDEX "Daily_email_key" ON "Daily"("email");
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

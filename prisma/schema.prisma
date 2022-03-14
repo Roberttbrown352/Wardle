@@ -42,10 +42,12 @@ model Session {
 
 model Daily {
   id String @id @default(cuid())
-  userId String @unique
+  email String @unique
   wins Int @default(0)
   losses Int @default(0)
   currentWord String
   turn Int @default(0)
+  status String @default("in progress")
   words String[]
+  colors String[]
 }

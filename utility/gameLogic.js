@@ -11,9 +11,8 @@ function countLetters(array){
   return outputObject
 }
 
-export default function checkWord(inputWord, secretWord){
-  inputWord = inputWord.split('')
-  const correctWord = secretWord.split('')
+export default function checkWord(inputWord, correctWord){
+  correctWord = correctWord.split('')
   const correctWordCount = countLetters(correctWord)
   let outputColor = []
 
@@ -27,7 +26,7 @@ export default function checkWord(inputWord, secretWord){
         outputColor.push('G')
         correctWordCount[inputWord[i]] = correctWordCount[inputWord[i]] - 1
       } else {
-        outputColor.push('DG')
+        outputColor.push('D')
       }
     }
 
@@ -42,7 +41,7 @@ export default function checkWord(inputWord, secretWord){
       }
     }
 
-    const correct = !(outputColor.includes('Y') || outputColor.includes('DG'))
+    const correct = !(outputColor.includes('Y') || outputColor.includes('D'))
 
     return{word: inputWord, color: outputColor, correct}
   }

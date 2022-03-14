@@ -2,22 +2,29 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 export default async function submitDailyGame(body){
-
   const { user, game } = body
-  const words = game.gameBoard.map((board) => {
-    return board.word.join('').toLowerCase()
+
+  const words = game.words.map((word) => {
+    return word.join('').toLowerCase()
   })
+
+  const colors = game.colors.map((color) => {
+    return color.join('')
+  })
+
   const turn = game.turn + 1
 
-  const updateGame = await prisma.daily.update({
+  const updatedGame = await prisma.daily.update({
     where: {
-      userId: user.email
+      email: user.email
     },
     data: {
       turn,
-      words
+      words,
+      colors,
+      status: game.status
     }
   })
 
-  return updateGame
+  return updatedGame
 }

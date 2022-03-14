@@ -3,19 +3,10 @@ import letterCard from "../components/Cards/LetterCard"
 import { useUser } from '@auth0/nextjs-auth0'
 import { useState } from "react"
 import { card } from '../components/MUI-Props/LetterCard'
+import emptyDaily from '../components/emptyDaily'
+import grabBoard from '../components/apiQueries/grabDailyBoard'
+import submitBoard from '../components/apiQueries/submitDailyBoard'
 
-const gameBoard = [
-  {word:['','','','',''], color: ['','','','',''], correct: false},
-  {word:['','','','',''], color: ['','','','',''], correct: false},
-  {word:['','','','',''], color: ['','','','',''], correct: false},
-  {word:['','','','',''], color: ['','','','',''], correct: false},
-  {word:['','','','',''], color: ['','','','',''], correct: false},
-  {word:['','','','',''], color: ['','','','',''], correct: false}
-]
-const turn = 0
-const letterIndex = 0
-const status = 'in progress'
-const loaded = false
 const keyboard = [
   ['Q','W','E','R','T','Y','U','I','O','P'],
   ['A','S','D','F','G','H','J','K','L'],
@@ -26,60 +17,33 @@ const keyboard = [
 
 export default function Daily(){
   const { user } = useUser()
-  const [game, setGame] = useState({gameBoard, turn, status, letterIndex, loaded})
+  const [game, setGame] = useState(emptyDaily)
 
-  async function grabBoard(){
-    const response = await fetch('/api/daily', {
-      method: 'POST',
-      body: JSON.stringify(user)
-    })
-
-    if (!response.ok){
-      throw new Error(response.statusText)
+  const getCurrent = async () => {
+    if(user && !game.loaded){
+      const currentGame = await grabBoard(user)
+      setGame({...currentGame, loaded: true, letterIndex: 0})
     }
-
-    const data = await response.json()
-    setGame({...data, loaded: true, letterIndex})
-  }
-
-  async function submitBoard(user, game){
-    const body = {user, game}
-    const response = await fetch('/api/daily', {
-      method: 'PUT',
-      body: JSON.stringify(body)
-    })
-
-    if (!response.ok){
-      throw new Error(response.statusText)
-    }
-  }
-
-  if(user && (!game.loaded)){
-    grabBoard()
   }
 
   const keyboardCard = (letter, index, row, board) => {
 
     const handleClick = (event) => {
       let input = event.target.innerText
+      const oldRow = [...game.words]
 
-      if(input === '<-' && game.letterIndex != 0 && game.turn < 6){
-        const oldRow = [...game.gameBoard]
-        oldRow[game.turn].word[game.letterIndex - 1] = ''
-        setGame({...game, gameBoard: oldRow, letterIndex: game.letterIndex - 1})
-
-      } else if(input === '^' && game.letterIndex === 5 && game.turn != 6){
-
-        setGame({...game, turn: game.turn + 1, letterIndex: 0})
-        handleSubmit()
-
-      } else if(game.letterIndex < 5 && input !== '<-' && input !== '^' && game.turn < 6){
-
-        const oldRow = [...game.gameBoard]
-        oldRow[game.turn].word[game.letterIndex] = input
-        setGame({...game, gameBoard: oldRow, letterIndex: game.letterIndex + 1})
+      if(game.status !== 'won'){
+        if(input === '<-' && game.letterIndex != 0 && game.turn < 6){
+          oldRow[game.turn][game.letterIndex - 1] = ''
+          setGame({...game, words: oldRow, letterIndex: game.letterIndex - 1})
+        } else if(input === '^' && game.letterIndex === 5 && game.turn != 6){
+          setGame({...game, turn: game.turn + 1, letterIndex: 0})
+          handleSubmit()
+        } else if(game.letterIndex < 5 && input !== '<-' && input !== '^' && game.turn < 6){
+          oldRow[game.turn][game.letterIndex] = input
+          setGame({...game, words: oldRow, letterIndex: game.letterIndex + 1})
+        }
       }
-
     }
 
     return(
@@ -105,20 +69,13 @@ export default function Daily(){
     return rows.map((row, index) => renderGameRow(row, index, board, kb))
   }
 
-  const grabWords = (board) => {
-    const output = []
-    for(let i = 0; i < 6; i++){
-      output.push(board[i].word)
-    }
-    return output
-  }
-
   const handleSubmit = async () => {
     await submitBoard(user, game)
-    await grabBoard()
+    const currentGame = await grabBoard(user)
+    setGame({...currentGame, loaded: true, letterIndex: 0})
   }
 
-  console.log(game)
+  getCurrent()
 
   return(
     <Container>
@@ -126,7 +83,7 @@ export default function Daily(){
         <Grid container spacing={3} sx={{mt: 2, width: 600}}>
           <Grid item xs={12}>
             <Stack spacing={0.5}>
-              {renderBoard(grabWords(game.gameBoard), 'main')}
+              {renderBoard(game.words, 'main')}
             </Stack>
           </Grid>
         </Grid>
