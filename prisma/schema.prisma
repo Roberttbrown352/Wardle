@@ -50,4 +50,7 @@ model Daily {
   status String @default("in progress")
   words String[]
   colors String[]
+  closeLetters String @default("")
+  correctLetters String @default("")
+  incorrectLetters String @default("")
 }

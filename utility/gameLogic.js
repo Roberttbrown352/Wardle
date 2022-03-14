@@ -15,6 +15,9 @@ export default function checkWord(inputWord, correctWord){
   correctWord = correctWord.split('')
   const correctWordCount = countLetters(correctWord)
   let outputColor = []
+  let correctLetters = ''
+  let closeLetters = ''
+  let incorrectLetters = ''
 
   if(inputWord.length !== 5){
     console.log('Word needs to be 5 characters')
@@ -25,8 +28,10 @@ export default function checkWord(inputWord, correctWord){
       if(inputWord[i] === correctWord[i]){
         outputColor.push('G')
         correctWordCount[inputWord[i]] = correctWordCount[inputWord[i]] - 1
+        correctLetters = correctLetters + inputWord[i]
       } else {
         outputColor.push('D')
+        incorrectLetters = incorrectLetters + inputWord[i]
       }
     }
 
@@ -36,6 +41,7 @@ export default function checkWord(inputWord, correctWord){
           if(correctWordCount[inputWord[i]] > 0){
             outputColor[i] = 'Y'
             correctWordCount[inputWord[i]] = correctWordCount[inputWord[i]] - 1
+            closeLetters = closeLetters + inputWord[i]
           }
         }
       }
@@ -43,6 +49,6 @@ export default function checkWord(inputWord, correctWord){
 
     const correct = !(outputColor.includes('Y') || outputColor.includes('D'))
 
-    return{word: inputWord, color: outputColor, correct}
+    return{word: inputWord, color: outputColor, correct, correctLetters, closeLetters, incorrectLetters}
   }
 }

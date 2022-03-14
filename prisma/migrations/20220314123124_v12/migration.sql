@@ -43,6 +43,9 @@ CREATE TABLE "Daily" (
     "status" TEXT NOT NULL DEFAULT E'in progress',
     "words" TEXT[],
     "colors" TEXT[],
+    "closeLetters" TEXT NOT NULL DEFAULT E'',
+    "correctLetters" TEXT NOT NULL DEFAULT E'',
+    "incorrectLetters" TEXT NOT NULL DEFAULT E'',
 
     CONSTRAINT "Daily_pkey" PRIMARY KEY ("id")
 );

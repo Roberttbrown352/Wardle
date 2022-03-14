@@ -24,6 +24,12 @@ const status = 'in progress'
 
 const loaded = false
 
-const emptyGame = {words, colors, turn, letterIndex, status, loaded}
+const correctLetters = ''
+
+const incorrectLetters = ''
+
+const closeLetters = ''
+
+const emptyGame = {words, colors, turn, letterIndex, status, loaded, correctLetters, incorrectLetters, closeLetters}
 
 export default emptyGame

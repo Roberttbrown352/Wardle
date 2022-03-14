@@ -1,7 +1,8 @@
 import generateDailyWord from '../../utility/dailyWordCreator'
 import words from "../../utility/wordBank"
-import { PrismaClient } from "@prisma/client"
-const prisma = new PrismaClient()
+// import { PrismaClient } from "@prisma/client"
+// const prisma = new PrismaClient()
+import { prisma } from '../../db'
 
 export default async function findOrCreate(email) {
   const currentWord =  words[generateDailyWord(words.length)]
@@ -22,6 +23,9 @@ export default async function findOrCreate(email) {
           turn: 0,
           words: ['','','','','',''],
           colors: ['','','','','',''],
+          correctLetters: '',
+          incorrectLetters: '',
+          closeLetter: '',
           currentWord
         }
       })

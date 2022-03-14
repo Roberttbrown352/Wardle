@@ -9,9 +9,9 @@ export default async function daily(req, res) {
   if(req.method === 'POST'){
     const { email } = await JSON.parse(req.body)
     const game = await findOrCreate(email)
-    const {colors, turn, words, status} = game
+    const {colors, turn, words, status, incorrectLetters, correctLetters, closeLetters} = game
 
-    res.status(200).json({colors, turn, words, status})
+    res.status(200).json({colors, turn, words, status, incorrectLetters, correctLetters, closeLetters})
   } else if(req.method === 'PUT') {
     const dailyWord = wordBank[generateDailyWord(wordBank.length)].toUpperCase()
     const body = await JSON.parse(req.body)
@@ -19,6 +19,9 @@ export default async function daily(req, res) {
     let status = ''
 
     body.game.colors[body.game.turn] = checked.color
+    body.game.closeLetters =  body.game.closeLetters + checked.closeLetters
+    body.game.correctLetters = body.game.correctLetters + checked.correctLetters
+    body.game.incorrectLetters = body.game.incorrectLetters + checked.incorrectLetters
 
     if(body.game.turn === 5 && !checked.correct){
       status = 'lost'

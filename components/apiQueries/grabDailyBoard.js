@@ -5,7 +5,7 @@ export default async function grabBoard(user){
   })
 
   if (!response.ok){
-    throw new Error(response.statusText)
+    console.log(response.statusText)
   }
 
   const data = await response.json()

@@ -7,6 +7,7 @@ import { UserProvider } from '@auth0/nextjs-auth0'
 
 import createEmotionCache from '../utility/createEmotionCache'
 import darkTheme from '../styles/theme/darkTheme'
+
 import '../styles/globals.css'
 
 const clientSideEmotionCache = createEmotionCache()
