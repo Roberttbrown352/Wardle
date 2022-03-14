@@ -33,8 +33,6 @@ export default function NavAvatar(){
   const menuRender = () => {
     if(user){
       return loggedInOptions.map(singleOption)
-    } else if(error || isLoading){
-      return (<></>)
     } else {
       return loggedOutOptions.map(singleOption)
     }

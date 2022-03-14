@@ -21,7 +21,7 @@ export default function NavBar() {
           <Grid container>
             <Grid item container xs={4} display="flex" justifyContent="left">
               <Tabs value={value} onChange={handleChange}>
-                <Tab label="Daily" id=''/>
+                <Tab label="Daily" id='daily'/>
                 <Tab label="New Game" id=''/>
                 <Tab label="Games" id='games'/>
                 <Tab label="Game Test" id='game/123'/>

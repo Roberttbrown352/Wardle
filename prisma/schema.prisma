@@ -13,25 +13,39 @@ datasource db {
 
 model User {
   id String @id @default(cuid())
-  displayName String
   email String @unique
-  password String
-  email_Verified Boolean @default(false)
-  wins Int
-  losses Int
-  createdAt DateTime
+  games Session[]
+  wins Int @default(0)
+  losses Int @default(0)
+  createdAt DateTime @default(now())
 }
 
 model Game {
   id String @id @default(cuid())
-  player1 String
-  player2 String
-  Winner String
+  sessions Session[]
+  player1 String @default("")
+  player2 String @default("")
+  player1Turn Int @default(0)
+  player2Turn Int @default(0)
+  Winner String @default("")
   Word String
 }
 
 model Session {
   id String @id @default(cuid())
+  game Game @relation(fields: [gameId], references: [id])
   gameId String
+  user User @relation(fields: [userId], references: [id])
   userId String
+  words String[]
+}
+
+model Daily {
+  id String @id @default(cuid())
+  userId String @unique
+  wins Int @default(0)
+  losses Int @default(0)
+  currentWord String
+  turn Int @default(0)
+  words String[]
 }
